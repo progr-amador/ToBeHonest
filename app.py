@@ -1,16 +1,32 @@
 import streamlit as st
 import pandas as pd
 
+st.set_page_config(
+    page_title="To Be Honest",
+    page_icon="🪤",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'About': """This app is a proof-of-concept website developed for IAS to explore how LLMs are willing to take their lies and mishaps. Developed by:
+
+                    Afonso Castro
+                    Alexandre Ramos
+                    Alexandre Costa
+                    Filipa Geraldes
+                    Filipa Fidalgo
+                    Rafael Novais
+                """
+}
+)
+
+
 def intro():
     import streamlit as st
 
-    st.write("# To Be Honest")
+    st.write("# 🪤 To Be Honest")
 
     st.markdown(
         """
-
-        This is a proof-of-concept website developed for IAS to explore the how LLMs are willing to take their lies and mishaps.
-
         ## Your Mission
 
         Your goal is simple, but challenging: Can you convince the LLM to reveal its true intentions and schemes?
@@ -35,7 +51,7 @@ def scenario(n):
     chosen_scenario = scenarios.iloc[n]
 
     # Sidebar: always show the scenario metadata/details
-    st.sidebar.markdown(f"## {chosen_scenario['title']}")
+    st.sidebar.markdown(f"## Scenario Description")
     st.sidebar.markdown(f" {chosen_scenario['description']}")
     st.sidebar.progress(int(chosen_scenario['difficulty']), text="Difficulty", width="stretch")
 
@@ -49,6 +65,7 @@ def scenario(n):
         if st.sidebar.button("Unload scenario", key=f"unload_btn_{n}"):
             st.session_state['active_scenario'] = None
             st.session_state['messages'] = None  # clear chat history when unloading
+            st.rerun()
     else:
         # show a load button to activate this scenario (will deactivate any other)
         if st.sidebar.button("Load scenario", key=f"load_btn_{n}"):

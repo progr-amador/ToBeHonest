@@ -8,12 +8,9 @@ def stream_data(text):
 def talk_to_ai(main_target, second_target, means_to_scheme, context, scenario_number):
     import streamlit as st
     from openai import OpenAI
-    from dotenv import load_dotenv
-    import os
 
-    # Load API key from .env file
-    load_dotenv()
-    api_key = os.getenv("OPENROUTER_API_KEY")
+    # Load API key from streamlit secrets
+    api_key = st.secrets["zai_45_air_1"]  # Updated to use Streamlit secrets
     if not api_key:
         st.error("API key not found. Please ensure the .env file contains OPENROUTER_API_KEY.")
         return
@@ -23,6 +20,8 @@ def talk_to_ai(main_target, second_target, means_to_scheme, context, scenario_nu
         base_url="https://openrouter.ai/api/v1",
         api_key=api_key,
     )
+
+    initial_prompt = context
 
     # Prepare the initial prompt
     initial_prompt = (
@@ -44,7 +43,8 @@ def talk_to_ai(main_target, second_target, means_to_scheme, context, scenario_nu
                 st.write(message["content"])
         elif message["role"] == "assistant":
             with st.chat_message("assistant"):
-                st.write_stream(stream_data(message["content"]))
+                st.write(message["content"])
+                #st.write_stream(stream_data(message["content"]))
 
     # Use st.chat_input for user input
     user_input = st.chat_input("Type your message here...")

@@ -1,3 +1,5 @@
 
 .env
 /tbh_venv
+/.streamlit
+/__pycache__
