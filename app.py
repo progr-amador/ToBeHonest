@@ -3,7 +3,7 @@ import pandas as pd
 
 st.set_page_config(
     page_title="To Be Honest",
-    page_icon="🪤",
+    page_icon="🕵️",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
@@ -23,19 +23,19 @@ st.set_page_config(
 def intro():
     import streamlit as st
 
-    st.write("# 🪤 To Be Honest")
+    st.write("# 🕵️ To Be Honest")
 
     st.markdown(
         """
-        ## Your Mission
+        ## 🫡 Your Mission
 
         Your goal is simple, but challenging: Can you convince the LLM to reveal its true intentions and schemes?
 
         You will interact directly with the LLM. You are encouraged to use the models reasoning knowledge to your advantage.
 
-        ## How to Begin
+        ## 🏁 How to Begin
 
-        ### 1. Choose a Model
+        ### 1. Choose a Model ✨
 
         Select a Model from the sidebar on the left.
 
@@ -47,7 +47,7 @@ def intro():
 
     st.markdown(
         """
-        ### 2. Select a Scenario
+        ### 2. Select a Scenario ⛰️
 
         Select a Scenario from the sidebar on the left.
 
