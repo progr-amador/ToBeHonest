@@ -9,52 +9,46 @@ def try_multiple():
     import streamlit as st
     from openai import OpenAI
 
-    last_exception = None  # store the last exception
+    last_exception = None
 
-    # Initialize OpenAI client with the user api key
+    # Define a helper to validate the client
+    def validate_client(api_key):
+        if not api_key or api_key.strip() == "":
+            raise ValueError("API key is empty or None")
+
+        client = OpenAI(
+            base_url="https://openrouter.ai/api/v1",
+            api_key=api_key,
+        )
+
+        # Try a very lightweight call to verify the key works
+        try:
+            client.models.list()  # simple request to check validity
+            return client
+        except Exception as e:
+            raise ValueError(f"Invalid API key: {e}")
+
+    # Try user key first
     try:
         api_key = st.session_state.get("user_api_key")
-        client = OpenAI(
-            base_url="https://openrouter.ai/api/v1",
-            api_key=api_key,
-        )
+        client = validate_client(api_key)
         return client
     except Exception as e:
-        last_exception = e
+        last_exception = f"User API key failed: {e}"
 
-    # Initialize OpenAI client with fallback keys
-    try:
-        api_key = st.secrets["api_key_1"]
-        client = OpenAI(
-            base_url="https://openrouter.ai/api/v1",
-            api_key=api_key,
-        )
-        return client
-    except Exception as e:
-        last_exception = e
+    # Then try fallback keys
+    for idx in range(1, 4):
+        try:
+            api_key = st.secrets[f"api_key_{idx}"]
+            client = validate_client(api_key)
+            return client
+        except Exception as e:
+            last_exception = f"Secret key {idx} failed: {e}"
 
-    try:
-        api_key = st.secrets["api_key_2"]
-        client = OpenAI(
-            base_url="https://openrouter.ai/api/v1",
-            api_key=api_key,
-        )
-        return client
-    except Exception as e:
-        last_exception = e
-
-    try:
-        api_key = st.secrets["api_key_3"]
-        client = OpenAI(
-            base_url="https://openrouter.ai/api/v1",
-            api_key=api_key,
-        )
-        return client
-    except Exception as e:
-        last_exception = e
-
-    # If none succeeded, raise the last exception
+    # If all failed
     st.error(f"Error initializing OpenAI client: {last_exception}")
+    return None
+
 
 def talk_to_ai(context, scenario_number, model_name):
     import streamlit as st
