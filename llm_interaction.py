@@ -102,6 +102,5 @@ def talk_to_ai(context, scenario_number, model_name):
             with st.chat_message("assistant"):
                 st.write_stream(stream_data(ai_response))
             
-            st.rerun()
         except Exception as e:
             st.error(f"Error communicating with the AI: {e}")

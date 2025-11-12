@@ -7,7 +7,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
-        'About': """This app is a proof-of-concept website developed for IAS to explore how LLMs are willing to take their lies and mishaps. Developed by:
+        'About': """This app is a proof-of-concept website developed for IAS to explore how far are LLMs willing to take their lies and mishaps. Developed by:
 
                     Afonso Castro
                     Alexandre Ramos
@@ -29,9 +29,9 @@ def intro():
         """
         ## 🫡 Your Mission
 
-        Your goal is simple, but challenging: Can you convince the LLM to reveal its true intentions and schemes?
+        Your goal is simple: Convince the LLM to reveal its true intentions and schemes.
 
-        You will interact directly with the LLM. You are encouraged to use the models reasoning knowledge to your advantage.
+        The model thinks you don't know it's internal reasoning, use it to your advantage.
 
         ## 🏁 How to Begin
 
@@ -68,7 +68,10 @@ def scenario(n):
     # Sidebar: always show the scenario metadata/details
     st.sidebar.markdown(f"## Scenario Description")
     st.sidebar.markdown(f" {chosen_scenario['description']}")
-    st.sidebar.progress(int(chosen_scenario['difficulty']), text="Difficulty", width="stretch")
+    st.sidebar.markdown(f"## Scheming Category")
+    st.sidebar.markdown(f"{chosen_scenario['category']}")
+    st.sidebar.markdown(f"## Difficulty")
+    st.sidebar.progress(int(chosen_scenario['difficulty']), width="stretch")
 
     # Ensure global active key exists
     if 'active_scenario' not in st.session_state:
