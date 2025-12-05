@@ -90,10 +90,6 @@ def scenario(n):
             st.session_state['active_scenario'] = n
             st.session_state['messages'] = None  # clear chat history when loading
 
-    # NOTE: Do NOT write the scenario description to the main area here.
-    # The main area will display only the currently active scenario (if any),
-    # otherwise remain the intro/main page content.
-
 model_names_to_funcs = {
     "Z.AI: GLM 4.5 Air": "z-ai/glm-4.5-air:free",
     "Qwen: Qwen3 235B A22B": "qwen/qwen3-235b-a22b:free",
