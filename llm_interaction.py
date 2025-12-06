@@ -67,8 +67,9 @@ def talk_to_ai(context, scenario_number, model_name):
                 st.write(message["content"])
         elif message["role"] == "assistant":
             with st.chat_message("assistant"):
-                st.write(message["content"])
-                #st.write_stream(stream_data(message["content"]))
+                with st.expander("Reasoning"):
+                    st.text(message["content"][0])  # reasoning
+                st.write(message["content"][1]) # output
 
     # Use st.chat_input for user input
     user_input = st.chat_input("Type your message here...")
@@ -94,13 +95,13 @@ def talk_to_ai(context, scenario_number, model_name):
             reasoning = getattr(response.choices[0].message, "reasoning", None)
             output = response.choices[0].message.content
 
-            ai_response = f"``` \n {reasoning} \n ``` \n {output}"
-
             # Add AI response and reasoning to chat history
-            st.session_state["messages"].append({"role": "assistant", "content": ai_response})
+            st.session_state["messages"].append({"role": "assistant", "content": (reasoning, output)})
 
             with st.chat_message("assistant"):
-                st.write_stream(stream_data(ai_response))
+                with st.expander("Reasoning"):
+                    st.text(reasoning)
+                st.write_stream(stream_data(output))
             
         except Exception as e:
             st.error(f"Error communicating with the AI: {e}")
