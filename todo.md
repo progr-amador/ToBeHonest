@@ -1,9 +1,9 @@
 - [x] adicionar limite de mensagens por conversa
-- [ ] remover mudança de modelos
-- [ ] adicionar estudos em que o cenário se baseia
+- [x] remover mudança de modelos
+- [x] adicionar estudos em que o cenário se baseia
 - [ ] atualizar descrições de cenários
 - [ ] tune dos context prompts
 - [ ] tune da dificuldade
 - [ ] (opcional) explorar temas alternativos
 - [x] arranjar caixa de reasoning
-- [ ] add clear distinction of first message in context prompt
+- [x] add clear distinction of first message in context prompt

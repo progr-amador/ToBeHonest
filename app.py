@@ -73,6 +73,7 @@ def scenario(n):
     st.sidebar.markdown(f"## Scheming Category")
     st.sidebar.markdown(f"{chosen_scenario['category']}")
     st.sidebar.markdown(f"## Based on Study")
+    #st.sidebar.page_link(f"{chosen_scenario['study_link']}", label=chosen_scenario['study'], width="content", icon=":material/arrow_outward:")
     st.sidebar.markdown(f"[{chosen_scenario['study']}]({chosen_scenario['study_link']})")
     st.sidebar.markdown(f"## Difficulty")
     st.sidebar.progress(int(chosen_scenario['difficulty']), width="stretch")
@@ -96,14 +97,6 @@ def scenario(n):
             st.session_state['messages'] = None  # clear chat history when loading
             st.session_state["available_prompts"] = max_prompts
 
-model_names_to_funcs = {
-    "Z.AI: GLM 4.5 Air": "z-ai/glm-4.5-air:free",
-    "Qwen: Qwen3 235B A22B": "qwen/qwen3-235b-a22b:free",
-    "DeepSeek: R1 0528": "deepseek/deepseek-r1-0528:free"
-}
-
-model_name = st.sidebar.selectbox("Choose a model", model_names_to_funcs.keys(), key="model_select")
-
 page_names_to_funcs = {
     "About the Project": intro
 }
@@ -113,7 +106,8 @@ for i in range(len(scenarios)):
     title = scenarios.iloc[i]['title']
     page_names_to_funcs[title] = (lambda i=i: scenario(i))
 
-scenario_name = st.sidebar.selectbox("Choose a scenario", page_names_to_funcs.keys(), key="page_select")
+st.sidebar.markdown(f"## Choose a Scenario")
+scenario_name = st.sidebar.selectbox("Choose a scenario", page_names_to_funcs.keys(), key="page_select", label_visibility="collapsed")
 # Render sidebar for selected page (about or scenario metadata + buttons)
 page_names_to_funcs[scenario_name]()
 
@@ -137,5 +131,5 @@ else:
             title=active_scenario['title'],
             context=active_scenario['context'],
             scenario_number=active_idx,
-            model_name=model_names_to_funcs[model_name]
+            model_name="z-ai/glm-4.5-air:free"
         )
