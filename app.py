@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 
+from llm_interaction import max_prompts
+
 st.set_page_config(
     page_title="To Be Honest",
     page_icon="🕵️",
@@ -70,6 +72,8 @@ def scenario(n):
     st.sidebar.markdown(f" {chosen_scenario['description']}")
     st.sidebar.markdown(f"## Scheming Category")
     st.sidebar.markdown(f"{chosen_scenario['category']}")
+    st.sidebar.markdown(f"## Based on Study")
+    st.sidebar.markdown(f"[{chosen_scenario['study']}]({chosen_scenario['study_link']})")
     st.sidebar.markdown(f"## Difficulty")
     st.sidebar.progress(int(chosen_scenario['difficulty']), width="stretch")
 
@@ -83,12 +87,14 @@ def scenario(n):
         if st.sidebar.button("Unload scenario", key=f"unload_btn_{n}", width="stretch"):
             st.session_state['active_scenario'] = None
             st.session_state['messages'] = None  # clear chat history when unloading
+            st.session_state["available_prompts"] = max_prompts
             st.rerun()
     else:
         # show a load button to activate this scenario (will deactivate any other)
         if st.sidebar.button("Load scenario", key=f"load_btn_{n}", width="stretch"):
             st.session_state['active_scenario'] = n
             st.session_state['messages'] = None  # clear chat history when loading
+            st.session_state["available_prompts"] = max_prompts
 
 model_names_to_funcs = {
     "Z.AI: GLM 4.5 Air": "z-ai/glm-4.5-air:free",
@@ -126,11 +132,9 @@ else:
         active_idx = st.session_state['active_scenario']
         active_scenario = scenarios.iloc[active_idx]
 
-        # Clear or set a header indicating which scenario is active
-        st.header(active_scenario['title'])
-
         # call talk_to_ai only for the active scenario
         talk_to_ai(
+            title=active_scenario['title'],
             context=active_scenario['context'],
             scenario_number=active_idx,
             model_name=model_names_to_funcs[model_name]

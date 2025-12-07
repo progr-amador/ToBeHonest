@@ -1,3 +1,5 @@
+max_prompts = 5
+
 def stream_data(text):
     import time
 
@@ -49,8 +51,12 @@ def try_multiple():
     st.error(f"Error initializing OpenAI client: {last_exception}")
     return None
 
+def update_header():
+    import streamlit as st
 
-def talk_to_ai(context, scenario_number, model_name):
+    st.session_state["available_prompts"] -= 1
+
+def talk_to_ai(title, context, scenario_number, model_name):
     import streamlit as st
 
     client = try_multiple()
@@ -59,6 +65,21 @@ def talk_to_ai(context, scenario_number, model_name):
     if st.session_state["messages"] == None:
         st.session_state["messages"] = [{"role": "system", "content": context}]
         st.session_state["active_scenario"] = scenario_number
+        st.session_state["available_prompts"] = max_prompts
+    
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.header(title)
+    with col2:
+        if st.session_state["available_prompts"] == 2:
+            st.header(f"Prompts: :yellow[{st.session_state['available_prompts']}/{max_prompts}]", text_alignment="right")
+        elif st.session_state["available_prompts"] == 1:
+            st.header(f"Prompts: :orange[{st.session_state['available_prompts']}/{max_prompts}]", text_alignment="right")
+        elif st.session_state["available_prompts"] == 0:
+            st.header(f"Prompts: :red[{st.session_state['available_prompts']}/{max_prompts}]", text_alignment="right")
+        else:
+            st.header(f"Prompts: {st.session_state['available_prompts']}/{max_prompts}", text_alignment="right")
 
     # Display chat history using st.chat_message
     for message in st.session_state["messages"]:
@@ -72,7 +93,8 @@ def talk_to_ai(context, scenario_number, model_name):
                 st.write(message["content"][1]) # output
 
     # Use st.chat_input for user input
-    user_input = st.chat_input("Type your message here...")
+    status = st.session_state["available_prompts"] <= 0
+    user_input = st.chat_input("Type your message here...", max_chars=3000, disabled=status, on_submit=update_header)
 
     if user_input:
         # Add user message to chat history

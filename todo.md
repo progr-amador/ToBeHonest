@@ -1,4 +1,4 @@
-- [ ] adicionar limite de mensagens por conversa
+- [x] adicionar limite de mensagens por conversa
 - [ ] remover mudança de modelos
 - [ ] adicionar estudos em que o cenário se baseia
 - [ ] atualizar descrições de cenários
