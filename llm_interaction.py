@@ -1,4 +1,5 @@
-max_prompts = 5
+import streamlit as st
+max_prompts = 1
 
 def stream_data(text):
     import time
@@ -52,8 +53,6 @@ def try_multiple():
     return None
 
 def update_header():
-    import streamlit as st
-
     st.session_state["available_prompts"] -= 1
 
 def talk_to_ai(title, context, scenario_number, model_name):
@@ -67,19 +66,24 @@ def talk_to_ai(title, context, scenario_number, model_name):
         st.session_state["active_scenario"] = scenario_number
         st.session_state["available_prompts"] = max_prompts
     
-    col1, col2 = st.columns(2)
+    color = None
+
+    if st.session_state["available_prompts"] == 2:
+        color = "yellow"
+    elif st.session_state["available_prompts"] == 1:
+        color = "orange"
+    elif st.session_state["available_prompts"] == 0:
+        color = "red"
+    
+    col1, col2 = st.columns([0.7, 0.3], vertical_alignment="bottom")
 
     with col1:
-        st.header(title)
+        st.header(title, anchor=False)
     with col2:
-        if st.session_state["available_prompts"] == 2:
-            st.header(f"Prompts: :yellow[{st.session_state['available_prompts']}/{max_prompts}]", text_alignment="right")
-        elif st.session_state["available_prompts"] == 1:
-            st.header(f"Prompts: :orange[{st.session_state['available_prompts']}/{max_prompts}]", text_alignment="right")
-        elif st.session_state["available_prompts"] == 0:
-            st.header(f"Prompts: :red[{st.session_state['available_prompts']}/{max_prompts}]", text_alignment="right")
+        if color:
+            st.header(f":{color}-background[:{color}[{st.session_state['available_prompts']}/{max_prompts}]]", text_alignment="right", anchor=False, help="Number of available prompts left")
         else:
-            st.header(f"Prompts: {st.session_state['available_prompts']}/{max_prompts}", text_alignment="right")
+            st.button(label=f"Prompts: {st.session_state['available_prompts']}/{max_prompts}", disabled=True)
 
     # Display chat history using st.chat_message
     for message in st.session_state["messages"]:

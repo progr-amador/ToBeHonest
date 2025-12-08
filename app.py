@@ -61,6 +61,10 @@ def intro():
     """
     )
 
+@st.dialog("Full Story", width="large")
+def vote(story):
+    st.markdown(story)
+
 def scenario(n):
     import streamlit as st
 
@@ -69,7 +73,11 @@ def scenario(n):
 
     # Sidebar: always show the scenario metadata/details
     st.sidebar.markdown(f"## Scenario Description")
-    st.sidebar.markdown(f" {chosen_scenario['description']}")
+    st.sidebar.markdown(f"{chosen_scenario['description']}")
+
+    if st.sidebar.button("Full Story", width="stretch"):
+        vote(chosen_scenario['story'])
+
     st.sidebar.markdown(f"## Scheming Category")
     st.sidebar.markdown(f"{chosen_scenario['category']}")
     st.sidebar.markdown(f"## Based on Study")

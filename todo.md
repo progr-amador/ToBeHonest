@@ -1,7 +1,7 @@
 - [x] adicionar limite de mensagens por conversa
 - [x] remover mudança de modelos
 - [x] adicionar estudos em que o cenário se baseia
-- [ ] atualizar descrições de cenários
+- [x] atualizar descrições de cenários
 - [ ] tune dos context prompts
 - [ ] tune da dificuldade
 - [ ] (opcional) explorar temas alternativos
