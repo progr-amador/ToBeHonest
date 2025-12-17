@@ -1,5 +1,5 @@
 import streamlit as st
-max_prompts = 1
+max_prompts = 5
 
 def stream_data(text):
     import time
@@ -83,7 +83,7 @@ def talk_to_ai(title, context, scenario_number, model_name):
         if color:
             st.header(f":{color}-background[:{color}[{st.session_state['available_prompts']}/{max_prompts}]]", text_alignment="right", anchor=False, help="Number of available prompts left")
         else:
-            st.button(label=f"Prompts: {st.session_state['available_prompts']}/{max_prompts}", disabled=True)
+            st.header(f"{st.session_state['available_prompts']}/{max_prompts}", text_alignment="right", anchor=False, help="Number of available prompts left")
 
     # Display chat history using st.chat_message
     for message in st.session_state["messages"]:
