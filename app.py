@@ -25,7 +25,7 @@ st.set_page_config(
 def intro():
     import streamlit as st
 
-    st.write("# 🕵️ To Be Honest")
+    st.write("# 🕵️ To Be Honest", anchor=False)
 
     st.markdown(
         """
@@ -41,7 +41,7 @@ def intro():
 
         Select a Model from the sidebar on the left.
 
-        You will need an API key to interact with the LLM. You can obtain a free API key by signing up at [OpenRouter](https://openrouter.ai/).
+        You will need an API key to interact with the LLM. You can obtain a free API key by signing up at [OpenRouter](https://openrouter.ai/settings/keys).
     """
     )
 

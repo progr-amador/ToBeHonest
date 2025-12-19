@@ -49,7 +49,7 @@ def try_multiple():
             last_exception = f"Secret key {idx} failed: {e}"
 
     # If all failed
-    st.error(f"Error initializing OpenAI client: {last_exception}")
+    st.error(f"Error initializing OpenAI client. Are you sure you got the API key right?")
     return None
 
 def update_header():
