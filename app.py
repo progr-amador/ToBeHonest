@@ -25,7 +25,7 @@ st.set_page_config(
 def intro():
     import streamlit as st
 
-    st.write("# 🕵️ To Be Honest", anchor=False)
+    st.title("# 🕵️ To Be Honest", anchor=False)
 
     st.markdown(
         """
